@@ -15,6 +15,7 @@ import grails.converters.JSON
 
 class FilesController {
  def excelImportService
+ def docx4jService
 
   def index() {
  }
@@ -83,5 +84,12 @@ class FilesController {
 	  }
 	  //render headers as JSON
   }
-  
+  def exportWord() {
+	 def output =  docx4jService.exportWord(Person.list())
+	 
+	 response.setHeader("Content-disposition", "attachment; filename=output.docx");
+	 response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+	 response.outputStream << output
+	  
+  }
 }
